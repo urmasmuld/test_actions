@@ -215,4 +215,3 @@ function verifyEmail(email) {
         });
     });
 }
-
