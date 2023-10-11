@@ -15,8 +15,8 @@ jobs:
 
       - name: Set Git user information
         run: |
-          git config --global user.name "urmasmuld"
-          git config --global user.email "urmas.muldmaa@gmail.com"
+          git config --global user.name "your-username"
+          git config --global user.email "your-email@example.com"
         shell: bash
 
       - name: Setup Node.js
@@ -27,12 +27,30 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Determine Version Bump
+        id: version
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:%s)
+          if [[ $COMMIT_MESSAGE == "feat:"* ]]; then
+            echo "::set-output name=version-bump::minor"
+          elif [[ $COMMIT_MESSAGE == "fix:"* ]]; then
+            echo "::set-output name=version-bump::patch"
+          else
+            echo "::set-output name=version-bump::none"
+          fi
+        shell: bash
+
       - name: Bump Version and Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Use npm version to increment the package.json version
-          npm version patch -m "Bump version to %s" # You can use "major" or "minor" instead of "patch" for different releases
+          VERSION_BUMP=$(echo ${{ steps.version.outputs.version-bump }})
+          if [ "$VERSION_BUMP" == "minor" ]; then
+            npm version minor
+          elif [ "$VERSION_BUMP" == "patch" ]; then
+            npm version patch
+          fi
+
           TAG=$(git describe --abbrev=0)
           TITLE="Release $TAG"
           BODY="Release notes for version $TAG"
@@ -46,9 +64,3 @@ jobs:
               \"prerelease\": false
             }"
           git push --follow-tags
-
-      - name: Restore package.json
-        run: |
-          git checkout package.json
-
-          
