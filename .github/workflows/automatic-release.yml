@@ -32,8 +32,8 @@ jobs:
 
       - name: Commit and push version change
         run: |
-          git config --local user.email "urmas.muldmaa@gmail.com"
-          git config --local user.name "urmasmuld"
+          git config --global user.email "urmas.muldmaa@gmail.com"
+          git config --global user.name "urmasmuld"
           git commit -a -m "Bump version to $new_version"
           git push
         env:
