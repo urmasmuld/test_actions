@@ -1,12 +1,11 @@
 {
   "name": "PlantTracker_Team2",
-  "version": "0.3.2",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js, json, yml index.js",
-    "release": "standard-version",
-    "postrelease": "git push --follow-tags && npm publish"
+    "release": "standard-version"
   },
   "keywords": [],
   "author": "Team2",
