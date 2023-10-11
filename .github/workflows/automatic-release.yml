@@ -47,12 +47,6 @@ jobs:
             }"
           git push --follow-tags
 
-      - name: Update package.json
+      - name: Restore package.json
         run: |
-          sed -i 's/"version": ".*",/"version": "'${TAG}'",/' package.json
-
-      - name: Commit and Push package.json update
-        run: |
-          git add package.json
-          git commit -m "Update package.json version to ${TAG}"
-          git push
+          git checkout package.json
