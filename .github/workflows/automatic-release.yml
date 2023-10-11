@@ -1,31 +1,30 @@
-name: Release Workflow
+name: Semantic Release
 
 on:
   push:
     branches:
       - main
-
-jobs:
   release:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Bump version and create a release
-        run: |
-          npm version minor  # Or major, patch, etc.
-          git push --follow-tags
-          npm publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: success()
+    types:
+      - created
+      jobs:
+        release:
+          runs-on: ubuntu-latest
+          steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+      
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                node-version: 14
+      
+            - name: Install Dependencies
+              run: npm ci
+      
+            - name: Run semantic-release
+              run: npx semantic-release
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
