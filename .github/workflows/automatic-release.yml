@@ -1,30 +1,29 @@
-name: Semantic Release
+name: Release
 
 on:
   push:
     branches:
       - main
+
+jobs:
   release:
-    types:
-      - created
-      jobs:
-        release:
-          runs-on: ubuntu-latest
-          steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-      
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
-              with:
-                node-version: 14
-      
-            - name: Install Dependencies
-              run: npm ci
-      
-            - name: Run semantic-release
-              run: npx semantic-release
-              env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Release
+        run: npm run release
+
+      - name: Push changes and tags
+        run: |
+          git push --follow-tags
