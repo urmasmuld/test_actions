@@ -23,9 +23,7 @@ jobs:
 
       - name: Bump version and create release
         run: |
-          npm version --no-git-tag-version <version>
-          # Replace '<version>' with 'major', 'minor', or 'patch' depending on your changes
-          # Use any other logic here for determining version bump
+          npm version --no-git-tag-version minor
 
       - name: Push changes and tags
         run: |
