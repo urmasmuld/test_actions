@@ -24,7 +24,7 @@ jobs:
       - name: Determine the new version
         run: |
           current_version=$(node -p -e "require('./package.json').version")
-          new_version=$(npm version patch) # Increment version based on your needs
+          new_version=$(npm version patch)
           echo "Current Version: $current_version"
           echo "New Version: $new_version"
         env:
