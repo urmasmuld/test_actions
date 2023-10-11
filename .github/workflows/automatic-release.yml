@@ -33,8 +33,6 @@ jobs:
           new_version=$(npm version patch)
           echo "Current Version: $current_version"
           echo "New Version: $new_version"
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Commit and push version change
         run: |
