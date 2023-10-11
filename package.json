@@ -20,6 +20,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "semantic-release": "^22.0.5",
