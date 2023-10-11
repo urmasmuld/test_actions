@@ -39,14 +39,11 @@ jobs:
           BODY="Release notes for version $TAG"
           curl -X POST "https://api.github.com/repos/${{ github.repository }}/releases" \
             -H "Authorization: token $GITHUB_TOKEN" \
-            -d '{
-              "tag_name": "'$TAG'",
-              "name": "'$TITLE'",
-              "body": "'$BODY'",
-              "draft": false,
-              "prerelease": false
-            }'
+            -d "{
+              \"tag_name\": \"${TAG}\",
+              \"name\": \"${TITLE}\",
+              \"body\": \"${BODY}\",
+              \"draft\": false,
+              \"prerelease\": false
+            }"
       
-      - name: Push changes and tags
-        run: |
-          git push --follow-tags
