@@ -6,32 +6,20 @@ on:
       - main
 
 jobs:
-  release:
+  semantic-release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set Git user information
-        run: |
-          git config --global user.name "urmasmuld"
-          git config --global user.email "urmas.muldmaa@gmail.com"
-        shell: bash
-                
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Bump version and create release
-        run: |
-          npm version minor
-
-      - name: Push changes and tags
-        run: |
-          git push --follow-tags
-          git push origin HEAD:main
+      - name: Semantic Release
+        run: npx semantic-release
