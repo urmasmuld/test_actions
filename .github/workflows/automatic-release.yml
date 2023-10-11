@@ -23,7 +23,7 @@ jobs:
 
       - name: Bump version and create release
         run: |
-          npm version --no-git-tag-version minor
+          npm version minor
 
       - name: Push changes and tags
         run: |
