@@ -2,8 +2,8 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
   release:
@@ -28,9 +28,30 @@ jobs:
         run: npm install
 
       - name: Release
-          
         run: npm run release
 
       - name: Push changes and tags
         run: |
           git push --follow-tags
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag=$(git describe --tags)
+          body=$(git log $(git describe --abbrev=0 --tags $tag)..HEAD --pretty=format:"* %s%n%b")
+          echo "Creating release for tag: $tag"
+          echo "::set-env name=RELEASE_TAG::$tag"
+          echo "::set-env name=RELEASE_BODY::$body"
+        shell: bash
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: 
+            - ./*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ env.RELEASE_TAG }}
+          RELEASE_NAME: Release ${{ env.RELEASE_TAG }}
+          RELEASE_BODY: ${{ env.RELEASE_BODY }}
