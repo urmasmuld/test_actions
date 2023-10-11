@@ -35,6 +35,8 @@ jobs:
             echo "::set-output name=version-bump::minor"
           elif [[ $COMMIT_MESSAGE == "fix:"* ]]; then
             echo "::set-output name=version-bump::patch"
+          elif [[ $COMMIT_MESSAGE == "rel:"* ]]; then
+            echo "::set-output name=version-bump::major"
           else
             echo "::set-output name=version-bump::none"
           fi
@@ -49,6 +51,8 @@ jobs:
             npm version minor
           elif [ "$VERSION_BUMP" == "patch" ]; then
             npm version patch
+          elif [ "$VERSION_BUMP" == "major" ]; then
+            npm version major
           fi
 
           TAG=$(git describe --abbrev=0)
@@ -65,4 +69,4 @@ jobs:
             }"
           git push --follow-tags
 
-          
+        
