@@ -1,4 +1,4 @@
-name: Semantic Versioning
+name: Release
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           git config --global user.email "urmas.muldmaa@gmail.com"
         shell: bash
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 18
@@ -27,23 +27,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Determine the new version
-        run: |
-          current_version=$(node -p -e "require('./package.json').version")
-          new_version=$(npm version patch)
-          echo "Current Version: $current_version"
-          echo "New Version: $new_version"
+      - name: Release
+          
+        run: npm run release
 
-      - name: Commit and push version change
+      - name: Push changes and tags
         run: |
-          git commit -a -m "Bump version to $new_version"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: package.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push --follow-tags

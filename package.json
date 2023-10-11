@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js, json, yml index.js"
+    "start": "nodemon -e js, json, yml index.js",
+    "release": "standard-version"
   },
   "keywords": [],
   "author": "Team2",
