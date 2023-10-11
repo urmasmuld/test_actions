@@ -1,10 +1,12 @@
 {
   "name": "PlantTracker_Team2",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js, json, yml index.js"
+    "start": "nodemon -e js, json, yml index.js",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags && npm publish"
   },
   "keywords": [],
   "author": "Team2",
@@ -18,5 +20,15 @@
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
